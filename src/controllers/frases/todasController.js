@@ -1,14 +1,12 @@
 const { paginacaoSchema } = require('../../schemas/paginacaoSchema');
 const { listarTodasAsFrases } = require('../../services/frases/todasService');
+const { respostaErroValidacao } = require('../../utils/respostaErroValidacaoUtils');
 
 async function listarTodasAsFrasesController(req, res) {
   const { error, value } = paginacaoSchema.validate(req.query);
 
   if (error) {
-    return res.status(400).json({
-      erro: 'Parâmetros de paginação inválidos',
-      detalhes: error.details.map(d => d.message)
-    });
+    return res.status(400).json(respostaErroValidacao(error, 'Parâmetros de paginação inválidos'));
   }
 
   const { pagina, limite } = value;
