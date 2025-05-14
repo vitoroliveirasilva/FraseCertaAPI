@@ -1,14 +1,12 @@
 const { idiomaSchema } = require('../../schemas/idiomaSchema');
 const { buscarFraseAleatoria } = require('../../services/frases/aleatoriaService');
+const { respostaErroValidacao } = require('../../utils/respostaErroValidacaoUtils');
 
 async function obterFraseAleatoria(req, res) {
   const { error, value: lang } = idiomaSchema.validate(req.query.lang, { stripUnknown: true });
 
   if (error) {
-    return res.status(400).json({
-      erro: 'Parâmetro de idioma inválido',
-      detalhes: error.details.map(detail => detail.message),
-    });
+    return res.status(400).json(respostaErroValidacao(error, 'Parâmetro de idioma inválido'));
   }
 
   try {
