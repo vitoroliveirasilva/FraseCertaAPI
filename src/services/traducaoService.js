@@ -1,5 +1,5 @@
 const translate = require('google-translate-api-x');
-const { idiomaSchema } = require('../utils/joiSchemas');
+const { idiomaSchema } = require('../schemas/idiomaSchema');
 
 
 // Serviço responsável por traduzir um texto para o idioma especificado
