@@ -1,0 +1,33 @@
+{
+  "name": "frase-certa-api",
+  "version": "1.0.0",
+  "description": "Frase Certa API é uma API leve e moderna para fornecer frases motivacionais e inspiradoras em dois idiomas: português e inglês. Ideal para integrar com sites, apps, chatbots e projetos que desejam impactar positivamente seus usuários com palavras de incentivo.",
+  "main": "index.js",
+  "scripts": {
+    "dev": "nodemon src/server.js",
+    "start": "node src/server.js",
+    "lint": "eslint .",
+    "format": "prettier --write ."
+  },
+  "keywords": [
+    "frases",
+    "motivação",
+    "API",
+    "quotes",
+    "nodejs",
+    "netlify",
+    "serverless"
+  ],
+  "author": "Vitor Oliveira Silva",
+  "license": "MIT",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.18.2",
+    "google-translate-api-x": "^10.7.2",
+    "helmet": "^7.0.0",
+    "joi": "^17.9.2"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}
