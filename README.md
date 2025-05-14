@@ -42,6 +42,18 @@ npm start
 
 ---
 
+## 🌐 URL pública
+
+Acesse a API diretamente sem necessidade de instalação:
+
+**Base URL:**
+[`https://frasecertaapi-680953228709.us-central1.run.app`](https://frasecertaapi-680953228709.us-central1.run.app)
+
+**Exemplo de endpoint funcionando:**
+[`GET /frase?lang=pt`](https://frasecertaapi-680953228709.us-central1.run.app/frase?lang=pt)
+
+---
+
 ## 📚 Documentação da API
 
 Acesse em:
