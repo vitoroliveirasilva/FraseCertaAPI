@@ -6,8 +6,8 @@ info:
     Frase Certa API é uma API leve e moderna para fornecer frases motivacionais e inspiradoras em dois idiomas: português e inglês. Ideal para integrar com sites, apps, chatbots e projetos que desejam impactar positivamente seus usuários com palavras de incentivo.
 
 servers:
-  - url: http://localhost:3000
-    description: Servidor local
+  - url: https://frasecertaapi-680953228709.us-central1.run.app
+    description: Servidor em produção (Cloud Run)
 
 paths:
   /frase:
