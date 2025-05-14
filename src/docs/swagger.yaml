@@ -1,0 +1,164 @@
+openapi: 3.0.3
+info:
+  title: Frase Certa API
+  version: 1.0.0
+  description: API para retornar frases motivacionais, autores e buscas personalizadas, com suporte a paginação e filtros.
+
+servers:
+  - url: http://localhost:3000
+    description: Servidor local
+
+paths:
+  /frase:
+    get:
+      summary: Obter frase aleatória
+      description: Retorna uma frase aleatória e seu autor.
+      parameters:
+        - in: query
+          name: lang
+          schema:
+            type: string
+            enum: [en, pt, es, fr, de, it, ja, zh-cn]
+            default: en
+          description: Idioma da frase (padrão: en)
+      responses:
+        200:
+          description: Frase aleatória obtida com sucesso
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  quoteText:
+                    type: string
+                  quoteAuthor:
+                    type: string
+
+  /frases:
+    get:
+      summary: Listar todas as frases com paginação
+      description: Lista todas as frases disponíveis no JSON com suporte a paginação.
+      parameters:
+        - in: query
+          name: pagina
+          schema:
+            type: integer
+            minimum: 1
+            default: 1
+          description: Número da página
+        - in: query
+          name: limite
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 100
+            default: 10
+          description: Quantidade de frases por página
+      responses:
+        200:
+          description: Lista de frases retornada com sucesso
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  total:
+                    type: integer
+                  pagina:
+                    type: integer
+                  limite:
+                    type: integer
+                  resultados:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        quoteText:
+                          type: string
+                        quoteAuthor:
+                          type: string
+
+  /frases/autor/{nome}:
+    get:
+      summary: Listar frases por autor
+      description: Retorna uma lista de frases de um autor (busca parcial, case-insensitive).
+      parameters:
+        - name: nome
+          in: path
+          required: true
+          schema:
+            type: string
+          description: Nome parcial ou completo do autor
+      responses:
+        200:
+          description: Frases do autor retornadas com sucesso
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    quoteText:
+                      type: string
+                    quoteAuthor:
+                      type: string
+        404:
+          description: Nenhuma frase encontrada para o autor
+
+  /autores:
+    get:
+      summary: Listar autores únicos
+      description: Retorna todos os nomes de autores únicos presentes no JSON.
+      responses:
+        200:
+          description: Lista de autores retornada com sucesso
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: string
+
+  /frase/busca/{palavra}:
+    get:
+      summary: Buscar frases por palavra-chave
+      description: Retorna todas as frases que contenham a palavra especificada.
+      parameters:
+        - name: palavra
+          in: path
+          required: true
+          schema:
+            type: string
+          description: Palavra-chave a ser buscada no conteúdo da frase
+      responses:
+        200:
+          description: Frases encontradas com sucesso
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    quoteText:
+                      type: string
+                    quoteAuthor:
+                      type: string
+        404:
+          description: Nenhuma frase encontrada com a palavra informada
+
+  /frases/quantidade:
+    get:
+      summary: Contar frases totais
+      description: Retorna a quantidade total de frases disponíveis no arquivo JSON.
+      responses:
+        200:
+          description: Quantidade total retornada com sucesso
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  total:
+                    type: integer
