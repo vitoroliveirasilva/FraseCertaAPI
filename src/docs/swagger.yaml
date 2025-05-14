@@ -2,7 +2,8 @@ openapi: 3.0.3
 info:
   title: Frase Certa API
   version: 1.0.0
-  description: API para retornar frases motivacionais, autores e buscas personalizadas, com suporte a paginação e filtros.
+  description: >
+    Frase Certa API é uma API leve e moderna para fornecer frases motivacionais e inspiradoras em dois idiomas: português e inglês. Ideal para integrar com sites, apps, chatbots e projetos que desejam impactar positivamente seus usuários com palavras de incentivo.
 
 servers:
   - url: http://localhost:3000
@@ -12,15 +13,15 @@ paths:
   /frase:
     get:
       summary: Obter frase aleatória
-      description: Retorna uma frase aleatória e seu autor.
+      description: Retorna uma frase aleatória e seu autor, com suporte a tradução opcional para português.
       parameters:
         - in: query
           name: lang
           schema:
             type: string
-            enum: [en, pt, es, fr, de, it, ja, zh-cn]
+            enum: [en, pt]
             default: en
-          description: Idioma da frase (padrão: en)
+          description: Idioma da frase. Aceita "en" (inglês) ou "pt" (português).
       responses:
         200:
           description: Frase aleatória obtida com sucesso
@@ -29,15 +30,17 @@ paths:
               schema:
                 type: object
                 properties:
-                  quoteText:
+                  frase:
                     type: string
-                  quoteAuthor:
+                  autor:
                     type: string
 
   /frases:
     get:
       summary: Listar todas as frases com paginação
-      description: Lista todas as frases disponíveis no JSON com suporte a paginação.
+      description: >
+        Lista todas as frases disponíveis no JSON com suporte a paginação.
+        Caso lang=pt seja informado, a resposta incluirá um aviso de que as frases estão em inglês.
       parameters:
         - in: query
           name: pagina
@@ -52,8 +55,15 @@ paths:
             type: integer
             minimum: 1
             maximum: 100
-            default: 10
+            default: 5
           description: Quantidade de frases por página
+        - in: query
+          name: lang
+          schema:
+            type: string
+            enum: [en, pt]
+            default: en
+          description: Idioma da resposta. Apenas "en" é traduzido. "pt" retornará aviso.
       responses:
         200:
           description: Lista de frases retornada com sucesso
@@ -77,11 +87,15 @@ paths:
                           type: string
                         quoteAuthor:
                           type: string
+                  aviso:
+                    type: string
+                    description: Exibido apenas se lang for diferente de "en"
 
   /frases/autor/{nome}:
     get:
       summary: Listar frases por autor
-      description: Retorna uma lista de frases de um autor (busca parcial, case-insensitive).
+      description: >
+        Retorna uma lista de frases que contenham o nome (ou parte dele) do autor especificado. Busca case-insensitive.
       parameters:
         - name: nome
           in: path
@@ -109,7 +123,7 @@ paths:
   /autores:
     get:
       summary: Listar autores únicos
-      description: Retorna todos os nomes de autores únicos presentes no JSON.
+      description: Retorna todos os autores únicos presentes no arquivo de frases.
       responses:
         200:
           description: Lista de autores retornada com sucesso
@@ -123,30 +137,49 @@ paths:
   /frase/busca/{palavra}:
     get:
       summary: Buscar frases por palavra-chave
-      description: Retorna todas as frases que contenham a palavra especificada.
+      description: >
+        Retorna todas as frases que contenham a palavra especificada.
+        A busca é realizada apenas nas frases em inglês (não traduzidas).
       parameters:
         - name: palavra
           in: path
           required: true
           schema:
             type: string
-          description: Palavra-chave a ser buscada no conteúdo da frase
+          description: Palavra-chave a ser buscada no conteúdo da frase (em inglês)
       responses:
         200:
           description: Frases encontradas com sucesso
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  type: object
-                  properties:
-                    quoteText:
-                      type: string
-                    quoteAuthor:
-                      type: string
+                type: object
+                properties:
+                  aviso:
+                    type: string
+                    example: A busca é feita apenas em frases em inglês. Traduções automáticas não são suportadas.
+                  resultados:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        quoteText:
+                          type: string
+                        quoteAuthor:
+                          type: string
         404:
           description: Nenhuma frase encontrada com a palavra informada
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  erro:
+                    type: string
+                    example: Nenhuma frase contém a palavra: coragem
+                  aviso:
+                    type: string
+                    example: A busca é feita apenas em frases em inglês. Traduções automáticas não são suportadas.
 
   /frases/quantidade:
     get:
