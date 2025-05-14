@@ -1,5 +1,5 @@
 const express = require('express');
-const { buscarFrasesPorPalavraChave } = require('../../controllers/frase_controller');
+const { buscarFrasesPorPalavraChave } = require('../../controllers/frases/buscaController');
 
 const router = express.Router();
 

@@ -1,5 +1,5 @@
 const express = require('express');
-const { obterFraseAleatoria } = require('../../controllers/frase_controller');
+const { obterFraseAleatoria } = require('../../controllers/frases/aleatoriaController');
 
 const router = express.Router();
 

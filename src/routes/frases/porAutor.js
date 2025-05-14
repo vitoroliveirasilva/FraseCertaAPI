@@ -1,5 +1,5 @@
 const express = require('express');
-const { listarFrasesPorAutor } = require('../../controllers/frase_controller');
+const { listarFrasesPorAutor } = require('../../controllers/frases/porAutorController');
 
 const router = express.Router();
 

@@ -1,5 +1,5 @@
 const express = require('express');
-const { contarFrasesTotais } = require('../../controllers/frase_controller');
+const { contarFrasesTotais } = require('../../controllers/frases/quantidadeController');
 
 const router = express.Router();
 
