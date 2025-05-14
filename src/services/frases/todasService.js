@@ -11,12 +11,13 @@ async function listarTodasAsFrases(pagina = 1, limite = 5, lang = 'en') {
     total: frases.length,
     pagina,
     limite,
-    resultados: paginadas
   };
 
   if (lang !== 'en') {
     resposta.aviso = "Tradução automática de frases em lote está desativada por motivos de desempenho. Frases retornadas em inglês.";
   }
+
+  resposta.resultados = paginadas;
 
   return resposta;
 }
