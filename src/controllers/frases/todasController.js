@@ -12,9 +12,10 @@ async function listarTodasAsFrasesController(req, res) {
   }
 
   const { pagina, limite } = value;
+  const lang = req.query.lang || 'en';
 
   try {
-    const resultado = await listarTodasAsFrases(pagina, limite);
+    const resultado = await listarTodasAsFrases(pagina, limite, lang);
     return res.status(200).json(resultado);
   } catch (err) {
     console.error('Erro ao listar frases paginadas:', err);
