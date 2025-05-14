@@ -9,9 +9,19 @@ servers:
   - url: https://frasecertaapi-680953228709.us-central1.run.app
     description: Servidor em produção (Cloud Run)
 
+tags:
+  - name: Frases
+    description: Endpoints para frases aleatórias, listagem e busca
+  - name: Autores
+    description: Endpoints relacionados a autores únicos
+  - name: Estatísticas
+    description: Informações sobre a quantidade de frases disponíveis
+
 paths:
   /frase:
     get:
+      tags:
+        - Frases
       summary: Obter frase aleatória
       description: Retorna uma frase aleatória e seu autor, com suporte a tradução opcional para português.
       parameters:
@@ -37,6 +47,8 @@ paths:
 
   /frases:
     get:
+      tags:
+        - Frases
       summary: Listar todas as frases com paginação
       description: >
         Lista todas as frases disponíveis no JSON com suporte a paginação.
@@ -93,6 +105,8 @@ paths:
 
   /frases/autor/{nome}:
     get:
+      tags:
+        - Frases
       summary: Listar frases por autor
       description: >
         Retorna uma lista de frases que contenham o nome (ou parte dele) do autor especificado. Busca case-insensitive.
@@ -122,6 +136,8 @@ paths:
 
   /autores:
     get:
+      tags:
+        - Autores
       summary: Listar autores únicos
       description: Retorna todos os autores únicos presentes no arquivo de frases.
       responses:
@@ -136,6 +152,8 @@ paths:
 
   /frase/busca/{palavra}:
     get:
+      tags:
+        - Frases
       summary: Buscar frases por palavra-chave
       description: >
         Retorna todas as frases que contenham a palavra especificada.
@@ -183,6 +201,8 @@ paths:
 
   /frases/quantidade:
     get:
+      tags:
+        - Estatísticas
       summary: Contar frases totais
       description: Retorna a quantidade total de frases disponíveis no arquivo JSON.
       responses:
